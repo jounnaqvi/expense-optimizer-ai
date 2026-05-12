@@ -10,7 +10,7 @@ import { ToolCard } from '@/components/tool-card';
 import { AIReportSummary } from '@/components/ai-report-summary';
 import { LeadCaptureForm } from '@/components/lead-capture-form';
 import { Button } from '@/components/ui/button';
-import { supabase } from '@/lib/supabase';
+import { supabase, SUPABASE_URL } from '@/lib/supabase';
 import { AuditRecord, Recommendation } from '@/lib/types';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Copy as CopyIcon, Check as CheckIcon, Share2, ArrowLeft, Loader as Loader2 } from 'lucide-react';
@@ -51,8 +51,7 @@ function ResultsContent() {
     if (!audit) return;
     setAiSummaryLoading(true);
     try {
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-      const response = await fetch(`${supabaseUrl}/functions/v1/generate-summary`, {
+      const response = await fetch(`${SUPABASE_URL}/functions/v1/generate-summary`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
